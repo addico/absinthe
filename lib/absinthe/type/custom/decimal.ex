@@ -13,12 +13,12 @@ if Code.ensure_loaded?(Decimal) do
       end
     end
 
-    def parse(%Absinthe.Blueprint.Input.Float{value: value}) do
-      decimal = Decimal.new(value)
+    def parse(%Absinthe.Blueprint.Input.Float{value: value}) when is_float(value) do
+      decimal = Decimal.from_float(value)
       if Decimal.nan?(decimal), do: :error, else: {:ok, decimal}
     end
 
-    def parse(%Absinthe.Blueprint.Input.Integer{value: value}) do
+    def parse(%Absinthe.Blueprint.Input.Integer{value: value}) when is_integer(value) do
       decimal = Decimal.new(value)
       if Decimal.nan?(decimal), do: :error, else: {:ok, decimal}
     end
